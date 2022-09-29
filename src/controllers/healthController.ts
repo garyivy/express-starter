@@ -9,6 +9,6 @@ export class UsersController extends Controller {
 
   @Get('liveness')
   public async getLiveness(): Promise<any> {
-    return { message: 'ready for traffic' };
+    return { message: 'still alive' };
   }
 }

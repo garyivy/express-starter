@@ -3,22 +3,35 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute, HttpStatusCodeLiteral, TsoaResponse, fetchMiddlewares } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { UsersController } from './../controllers/healthController';
+import { bookController } from './../controllers/bookController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { LoginController } from './../controllers/loginController';
+import { UsersController } from './../controllers/healthController';
 import type { RequestHandler } from 'express';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "UserCredentials": {
+    "BookStatus": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["New"]},{"dataType":"enum","enums":["Used"]},{"dataType":"enum","enums":["Out Of Stock"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Book": {
         "dataType": "refObject",
         "properties": {
-            "userName": {"dataType":"string","required":true},
-            "password": {"dataType":"string","required":true},
+            "id": {"dataType":"double","required":true},
+            "author": {"dataType":"string","required":true},
+            "title": {"dataType":"string","required":true},
+            "status": {"ref":"BookStatus","required":true},
+            "description": {"dataType":"string"},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Book_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double"},"author":{"dataType":"string"},"title":{"dataType":"string"},"status":{"ref":"BookStatus"},"description":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -31,6 +44,83 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+        app.post('/books',
+            ...(fetchMiddlewares<RequestHandler>(bookController)),
+            ...(fetchMiddlewares<RequestHandler>(bookController.prototype.postBook)),
+
+            function bookController_postBook(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"Book"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new bookController();
+
+
+              const promise = controller.postBook.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, 201, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/books/:bookId',
+            ...(fetchMiddlewares<RequestHandler>(bookController)),
+            ...(fetchMiddlewares<RequestHandler>(bookController.prototype.putBook)),
+
+            function bookController_putBook(request: any, response: any, next: any) {
+            const args = {
+                    bookId: {"in":"path","name":"bookId","required":true,"dataType":"double"},
+                    body: {"in":"body","name":"body","required":true,"ref":"Partial_Book_"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new bookController();
+
+
+              const promise = controller.putBook.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/books',
+            ...(fetchMiddlewares<RequestHandler>(bookController)),
+            ...(fetchMiddlewares<RequestHandler>(bookController.prototype.getBooks)),
+
+            function bookController_getBooks(request: any, response: any, next: any) {
+            const args = {
+                    page_size: {"in":"query","name":"page_size","required":true,"dataType":"integer","validators":{"isInt":{"errorMsg":"page_size should be a positive integer"},"minimum":{"value":1}}},
+                    page_number: {"in":"query","name":"page_number","dataType":"integer","validators":{"isInt":{"errorMsg":"page_number should be a positive integer"},"minimum":{"value":1}}},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new bookController();
+
+
+              const promise = controller.getBooks.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/health/readiness',
             ...(fetchMiddlewares<RequestHandler>(UsersController)),
             ...(fetchMiddlewares<RequestHandler>(UsersController.prototype.getReadiness)),
@@ -73,31 +163,6 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.getLiveness.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/login',
-            ...(fetchMiddlewares<RequestHandler>(LoginController)),
-            ...(fetchMiddlewares<RequestHandler>(LoginController.prototype.postLogin)),
-
-            function LoginController_postLogin(request: any, response: any, next: any) {
-            const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"UserCredentials"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new LoginController();
-
-
-              const promise = controller.postLogin.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
