@@ -85,12 +85,7 @@
 				"operationId": "PostBook",
 				"responses": {
 					"201": {
-						"description": "Created",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
+						"description": "Created"
 					}
 				},
 				"description": "Adds a book",
@@ -127,6 +122,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Books"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -157,15 +155,16 @@
 				"operationId": "PutBook",
 				"responses": {
 					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
+						"description": "Updated"
+					},
+					"404": {
+						"description": "Unable to find book"
 					}
 				},
 				"description": "Updates one or more book properties",
+				"tags": [
+					"Books"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -188,6 +187,40 @@
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Book"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Unable to find book"
+					}
+				},
+				"description": "Get a book by ID",
+				"tags": [
+					"Books"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "bookId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
 			}
 		},
 		"/health/readiness": {
@@ -203,6 +236,10 @@
 						}
 					}
 				},
+				"description": "Probe for determine if application is ready to receive requests",
+				"tags": [
+					"Health"
+				],
 				"security": [],
 				"parameters": []
 			}
@@ -220,6 +257,10 @@
 						}
 					}
 				},
+				"description": "Probe for determine if application is can still receive requests",
+				"tags": [
+					"Health"
+				],
 				"security": [],
 				"parameters": []
 			}

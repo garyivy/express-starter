@@ -4,7 +4,7 @@
   "description": "Starter Kit for Express Api with Typescript, Unit and Integration Testing",
   "main": "main.js",
   "scripts": {
-    "build": "tsoa:gen swc src -d dist --source-maps --copy-files",
+    "build": "npm run generate && swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
     "start": "npm run build && NODE_ENV=production node dist/main.js",
     "dev": "NODE_ENV=development nodemon",
@@ -12,7 +12,7 @@
     "test:integration": "jest --testMatch='**/?(*.)+(spec.integration).[jt]s?(x)' --runInBand",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix",
-    "tsoa:gen": "tsoa routes && tsoa spec"
+    "generate": "tsoa routes && tsoa spec"
   },
   "author": "Gary Ivy",
   "license": "ISC",

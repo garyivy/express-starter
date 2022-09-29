@@ -50,7 +50,7 @@ export function RegisterRoutes(app: express.Router) {
 
             function bookController_postBook(request: any, response: any, next: any) {
             const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"Book"},
+                    book: {"in":"body","name":"book","required":true,"ref":"Book"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -76,7 +76,7 @@ export function RegisterRoutes(app: express.Router) {
             function bookController_putBook(request: any, response: any, next: any) {
             const args = {
                     bookId: {"in":"path","name":"bookId","required":true,"dataType":"double"},
-                    body: {"in":"body","name":"body","required":true,"ref":"Partial_Book_"},
+                    book: {"in":"body","name":"book","required":true,"ref":"Partial_Book_"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -89,7 +89,7 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.putBook.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
+              promiseHandler(controller, promise, response, 200, next);
             } catch (err) {
                 return next(err);
             }
@@ -115,6 +115,31 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.getBooks.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/books/:bookId',
+            ...(fetchMiddlewares<RequestHandler>(bookController)),
+            ...(fetchMiddlewares<RequestHandler>(bookController.prototype.getBook)),
+
+            function bookController_getBook(request: any, response: any, next: any) {
+            const args = {
+                    bookId: {"in":"path","name":"bookId","required":true,"dataType":"double"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new bookController();
+
+
+              const promise = controller.getBook.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
