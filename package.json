@@ -4,20 +4,26 @@
   "description": "Starter Kit for Express Api with Typescript, Unit and Integration Testing",
   "main": "main.js",
   "scripts": {
-    "build": "swc src -d dist --source-maps --copy-files",
+    "build": "tsoa:gen swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
     "start": "npm run build && NODE_ENV=production node dist/main.js",
     "dev": "NODE_ENV=development nodemon",
     "test": "jest --forceExit --detectOpenHandles",
     "test:integration": "jest --testMatch='**/?(*.)+(spec.integration).[jt]s?(x)' --runInBand",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "tsoa:gen": "tsoa routes && tsoa spec"
   },
   "author": "Gary Ivy",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "express-openapi-validator": "^4.13.8",
+    "swagger-generator-express": "^2.1.1",
+    "swagger-ui-express": "^4.5.0",
+    "tsoa": "^4.1.3",
     "winston": "^3.8.2"
   },
   "devDependencies": {
@@ -30,8 +36,10 @@
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "express-jsdoc-swagger": "^1.8.0",
     "nodemon": "^2.0.20",
     "supertest": "^6.2.4",
+    "swagger-autogen": "^2.22.0",
     "ts-jest": "^29.0.2",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.7.0",

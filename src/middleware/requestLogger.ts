@@ -8,7 +8,6 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     const { statusCode } = res;
 
     logger.info(`${method} ${statusCode} ${url}`);
-    logger.http('test');
   });
 
   next();
