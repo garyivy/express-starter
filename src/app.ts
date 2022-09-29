@@ -9,15 +9,6 @@ import { logger } from './services/loggingService';
 
 const app = express();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const defaultErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  logger.error(`Unable to process request ${req.method} ${req.route}, ${err}`);
-  res.status(err.status || 500).json({
-    message: 'Unable to process the request at this time',
-  });
-};
-
-app.use(defaultErrorHandler);
 app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
@@ -30,6 +21,22 @@ app.use(
     validateResponses: false,
   }),
 );
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const defaultErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err.status === 400 && err.errors) {
+    res.status(err.status || 500).json({
+      message: err.message,
+      errors: err.errors,
+    });
+  } else {
+    logger.error(`Unable to process request ${req.method} ${req.url}, ${err}`);
+    res.status(err.status || 500).json({
+      message: 'Unable to process the request at this time',
+    });
+  }
+};
+app.use(defaultErrorHandler);
 
 installMiddleware(app);
 RegisterRoutes(app);
