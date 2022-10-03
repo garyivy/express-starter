@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // This is a simple controller to gain an undertanding of tsoa swagger generation and open API validator
 // tsoa looks for annotations, interfaces, types, jsDoc associated with a Controller
 // to generate swagger documentation and routes to be registered with the app
-import { Controller, Post, Put, Get, Route, Body, Tags, Path, Query, SuccessResponse, Response } from 'tsoa';
+import { Controller, Post, Put, Get, Route, Body, Tags, Path, Query, SuccessResponse, Response, Header, Security } from 'tsoa';
 import { Book, createBook, updateBook, getBooks, getBookById } from '../services/bookService';
 import { logger } from '../services/loggingService';
-
+@Security('bearerAuth')
 @Route('books')
 export class bookController extends Controller {
   /**
@@ -41,8 +42,12 @@ export class bookController extends Controller {
    */
   @Tags('Books')
   @Get()
-  public async getBooks(@Query() page_size: number, @Query() page_number?: number): Promise<Array<Book>> {
-    logger.warn(`ignoring page_number of ${page_number} and a page_size of ${page_size}`);
+  public async getBooks(
+    @Header('Corelation-Id') correlationId: string,
+    @Query() page_size: number,
+    @Query() page_number?: number,
+    @Header('Optional-Id') optionalId?: string,
+  ): Promise<Array<Book>> {
     return await getBooks();
   }
 

@@ -65,7 +65,13 @@
 				"description": "Make all properties in T optional"
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	},
 	"info": {
 		"title": "express-starter",
@@ -92,7 +98,11 @@
 				"tags": [
 					"Books"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -125,8 +135,20 @@
 				"tags": [
 					"Books"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
+					{
+						"in": "header",
+						"name": "Corelation-Id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
 					{
 						"in": "query",
 						"name": "page_size",
@@ -145,6 +167,14 @@
 							"format": "int32",
 							"type": "integer",
 							"minimum": 1
+						}
+					},
+					{
+						"in": "header",
+						"name": "Optional-Id",
+						"required": false,
+						"schema": {
+							"type": "string"
 						}
 					}
 				]
@@ -165,7 +195,11 @@
 				"tags": [
 					"Books"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -209,7 +243,11 @@
 				"tags": [
 					"Books"
 				],
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
